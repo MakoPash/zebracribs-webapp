@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zebra Cribs — Find Your Home in Warsaw</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #0a0a0a;
+  --white: #f5f5f0;
+  --grey-light: #e8e8e3;
+  --grey-mid: #9a9a95;
+  --grey-dark: #2a2a25;
+  --border: rgba(0,0,0,0.09);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--white);color:var(--black);font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden;cursor:none}
+
+/* CURSOR */
+#cur{position:fixed;width:10px;height:10px;background:var(--black);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:difference;transition:transform .1s}
+#cur-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(0,0,0,0.25);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all .14s}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:var(--black);border-bottom:1px solid rgba(255,255,255,0.06);padding:0 48px;height:60px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+.nav-logo-mark{width:22px;height:22px;border:2px solid white;background:repeating-linear-gradient(-30deg,black 0,black 3px,white 3px,white 5px);border-radius:2px;flex-shrink:0}
+.nav-logo-text{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:3px;text-transform:uppercase;color:white}
+.nav-links{display:flex;align-items:center;gap:0}
+.nav-link{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.5);padding:8px 16px;cursor:none;transition:color .2s;border:none;background:none}
+.nav-link:hover,.nav-link.active{color:white}
+.nav-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:8px 20px;border:1px solid rgba(255,255,255,0.25);background:none;color:white;cursor:none;transition:all .2s;margin-left:12px}
+.nav-btn:hover{background:white;color:black}
+.nav-btn.admin-btn{background:white;color:black;border-color:white}
+.nav-btn.admin-btn:hover{background:transparent;color:white}
+
+/* VIEWS */
+.view{display:none;padding-top:60px;min-height:100vh}
+.view.active{display:block}
+
+/* =================== PUBLIC HERO =================== */
+#hero-public{min-height:calc(100vh - 60px);background:var(--black);display:grid;grid-template-columns:1fr 1fr;overflow:hidden}
+.hero-left-pub{display:flex;flex-direction:column;justify-content:center;padding:80px 60px;border-right:1px solid rgba(255,255,255,0.06)}
+.hero-tagline{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--grey-mid);margin-bottom:40px;display:flex;align-items:center;gap:12px}
+.hero-tagline::before{content:'';width:24px;height:1px;background:var(--grey-mid)}
+.pub-title{font-family:'Playfair Display',serif;font-size:clamp(44px,6vw,76px);font-weight:900;line-height:.92;letter-spacing:-1.5px;color:white;margin-bottom:28px}
+.pub-title span{display:block;font-style:italic;font-weight:400;color:var(--grey-mid)}
+.pub-sub{font-size:15px;color:var(--grey-mid);line-height:1.7;max-width:360px;margin-bottom:44px}
+.pub-search{display:flex;border:1px solid rgba(255,255,255,0.15);overflow:hidden;max-width:420px}
+.pub-search input{flex:1;background:transparent;border:none;outline:none;padding:14px 18px;font-family:'DM Sans',sans-serif;font-size:14px;color:white;font-weight:300}
+.pub-search input::placeholder{color:rgba(255,255,255,0.3)}
+.pub-search button{background:white;color:black;border:none;padding:14px 20px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:none}
+.hero-right-pub{display:flex;flex-direction:column;justify-content:flex-end;padding:60px 48px;background:repeating-linear-gradient(-25deg,rgba(255,255,255,0)0,rgba(255,255,255,0)20px,rgba(255,255,255,0.025)20px,rgba(255,255,255,0.025)24px)}
+.hero-stat-row{display:flex;flex-direction:column;gap:0}
+.h-stat{padding:28px 0;border-bottom:1px solid rgba(255,255,255,0.06)}
+.h-stat-num{font-family:'Playfair Display',serif;font-size:42px;font-weight:700;color:white;line-height:1;margin-bottom:6px}
+.h-stat-label{font-size:13px;color:var(--grey-mid)}
+
+/* LISTINGS SECTION */
+#listings-public{background:var(--white);padding:72px 48px}
+.section-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:48px}
+.section-h-left{}
+.sec-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--grey-mid);margin-bottom:10px}
+.sec-title{font-family:'Playfair Display',serif;font-size:32px;font-weight:700;line-height:1.1}
+.sec-count{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:1px;color:var(--grey-mid)}
+.filter-bar{display:flex;gap:8px}
+.filter-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:8px 16px;border:1px solid rgba(0,0,0,0.15);background:none;color:var(--grey-dark);cursor:none;transition:all .2s}
+.filter-btn.active,.filter-btn:hover{background:var(--black);color:white;border-color:var(--black)}
+
+/* LISTING GRID */
+.listing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:rgba(0,0,0,0.06);border:1px solid rgba(0,0,0,0.06)}
+.listing-card{background:var(--white);cursor:none;transition:background .2s;overflow:hidden}
+.listing-card:hover{background:#f0f0eb}
+.listing-img{width:100%;height:200px;object-fit:cover;display:block;filter:grayscale(20%);transition:filter .3s}
+.listing-card:hover .listing-img{filter:grayscale(0%)}
+.listing-img-placeholder{width:100%;height:200px;background:repeating-linear-gradient(-25deg,#e0e0db 0,#e0e0db 12px,#d0d0cb 12px,#d0d0cb 14px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px}
+.listing-img-placeholder span{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--grey-mid);text-transform:uppercase}
+.listing-body{padding:24px}
+.listing-badge{display:inline-flex;align-items:center;gap:6px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:#22c55e}
+.badge-dot.pending{background:#f59e0b}
+.listing-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;margin-bottom:4px;line-height:1.2}
+.listing-district{font-size:13px;color:var(--grey-mid);margin-bottom:14px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1px}
+.listing-specs{display:flex;gap:16px;margin-bottom:16px}
+.spec-item{font-size:12px;color:var(--grey-dark);display:flex;align-items:center;gap:5px}
+.spec-item svg{opacity:.4}
+.listing-footer{display:flex;justify-content:space-between;align-items:center;padding-top:14px;border-top:1px solid var(--border)}
+.listing-price{font-family:'Playfair Display',serif;font-size:22px;font-weight:700}
+.listing-price span{font-family:'DM Sans',sans-serif;font-size:12px;color:var(--grey-mid);font-weight:300}
+.view-btn{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:8px 14px;border:1px solid var(--black);background:none;color:var(--black);cursor:none;transition:all .2s}
+.listing-card:hover .view-btn{background:var(--black);color:white}
+
+/* =================== LISTING DETAIL VIEW =================== */
+#detail-view{background:var(--white)}
+.detail-inner{max-width:1100px;margin:0 auto;padding:48px 48px 80px}
+.breadcrumb{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--grey-mid);margin-bottom:32px;display:flex;align-items:center;gap:10px;cursor:none}
+.breadcrumb span{color:var(--black);cursor:none}
+.breadcrumb-sep{opacity:.3}
+.back-link{cursor:none;transition:opacity .2s}
+.back-link:hover{opacity:.6}
+.detail-grid{display:grid;grid-template-columns:1fr 380px;gap:48px;align-items:start}
+.detail-left{}
+.detail-gallery{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:260px 140px;gap:2px;background:rgba(0,0,0,0.06);margin-bottom:32px}
+.gallery-main{grid-column:1 / -1;grid-row:1;overflow:hidden}
+.gallery-main img,.gallery-sub img{width:100%;height:100%;object-fit:cover;filter:grayscale(15%);transition:filter .3s;display:block}
+.gallery-main:hover img,.gallery-sub:hover img{filter:grayscale(0)}
+.gallery-sub{overflow:hidden}
+.gallery-placeholder{width:100%;height:100%;background:repeating-linear-gradient(-25deg,#e0e0db 0,#e0e0db 10px,#d0d0cb 10px,#d0d0cb 12px)}
+.detail-title-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+.detail-title{font-family:'Playfair Display',serif;font-size:32px;font-weight:700;line-height:1.1}
+.detail-price-tag{font-family:'Playfair Display',serif;font-size:28px;font-weight:700}
+.detail-price-tag small{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--grey-mid);font-weight:300}
+.detail-location{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--grey-mid);margin-bottom:20px}
+.detail-specs-row{display:flex;gap:0;border:1px solid var(--border);margin-bottom:28px}
+.d-spec{flex:1;padding:16px 20px;border-right:1px solid var(--border);text-align:center}
+.d-spec:last-child{border-right:none}
+.d-spec-val{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;display:block;margin-bottom:3px}
+.d-spec-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--grey-mid)}
+.detail-desc{font-size:15px;line-height:1.75;color:rgba(0,0,0,0.7);margin-bottom:28px}
+.detail-features{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--border)}
+.feat-item{padding:12px 16px;border-bottom:1px solid var(--border);font-size:13px;display:flex;gap:10px;align-items:center}
+.feat-item::before{content:'—';color:var(--grey-mid);flex-shrink:0}
+/* Booking panel */
+.booking-panel{border:1px solid rgba(0,0,0,0.12);position:sticky;top:80px}
+.bp-header{background:var(--black);color:white;padding:24px}
+.bp-header-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:8px}
+.bp-price{font-family:'Playfair Display',serif;font-size:32px;font-weight:700}
+.bp-price small{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:300;color:rgba(255,255,255,0.5)}
+.bp-body{padding:24px}
+.bp-step{margin-bottom:20px}
+.bp-step-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--grey-mid);margin-bottom:8px}
+.bp-input{width:100%;border:1px solid rgba(0,0,0,0.15);padding:11px 14px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:300;outline:none;transition:border .2s;background:white}
+.bp-input:focus{border-color:var(--black)}
+.bp-select{width:100%;border:1px solid rgba(0,0,0,0.15);padding:11px 14px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:300;outline:none;background:white;appearance:none;cursor:none}
+.bp-fee-row{background:rgba(0,0,0,0.03);padding:14px 16px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;border:1px solid var(--border)}
+.bp-fee-label{font-size:13px;line-height:1.4}
+.bp-fee-label small{display:block;font-size:11px;color:var(--grey-mid);margin-top:2px}
+.bp-fee-amount{font-family:'Playfair Display',serif;font-size:22px;font-weight:700}
+.book-btn{width:100%;background:var(--black);color:white;border:none;padding:16px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:none;transition:background .2s}
+.book-btn:hover{background:#333}
+.bp-note{font-size:12px;color:var(--grey-mid);text-align:center;margin-top:12px;line-height:1.5;padding:0 4px}
+
+/* =================== PAYMENT / CONFIRMATION =================== */
+#payment-view{background:var(--black);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:80px 40px}
+.payment-box{background:var(--white);max-width:520px;width:100%}
+.payment-box-header{background:var(--black);padding:28px 32px;border-bottom:1px solid rgba(255,255,255,0.06)}
+.pbh-logo{display:flex;align-items:center;gap:10px;margin-bottom:24px}
+.pbh-logo-mark{width:18px;height:18px;border:2px solid white;background:repeating-linear-gradient(-30deg,black 0,black 3px,white 3px,white 5px);border-radius:2px}
+.pbh-logo-text{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:3px;color:white;text-transform:uppercase}
+.pbh-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:white;margin-bottom:4px}
+.pbh-sub{font-size:13px;color:rgba(255,255,255,0.5)}
+.payment-box-body{padding:32px}
+.pay-summary{border:1px solid var(--border);margin-bottom:24px}
+.pay-row{display:flex;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border);font-size:14px}
+.pay-row:last-child{border-bottom:none;font-weight:600}
+.pay-row.total{background:rgba(0,0,0,0.03)}
+.pay-methods{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px}
+.pay-method{border:1px solid var(--border);padding:12px;text-align:center;cursor:none;transition:all .2s;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:1px;text-transform:uppercase}
+.pay-method.selected,.pay-method:hover{border-color:var(--black);background:var(--black);color:white}
+.pay-field{margin-bottom:14px}
+.pay-field label{display:block;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--grey-mid);margin-bottom:6px}
+.pay-input{width:100%;border:1px solid var(--border);padding:11px 14px;font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:border .2s}
+.pay-input:focus{border-color:var(--black)}
+.pay-btn{width:100%;background:var(--black);color:white;border:none;padding:16px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:none;margin-top:8px;transition:background .2s}
+.pay-btn:hover{background:#222}
+
+/* CONFIRMATION */
+#confirm-view{background:var(--black);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:80px 40px}
+.confirm-box{background:var(--white);max-width:560px;width:100%;padding:0;overflow:hidden}
+.confirm-top{background:var(--black);padding:40px;text-align:center}
+.confirm-icon{width:56px;height:56px;border:2px solid rgba(255,255,255,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:22px}
+.confirm-title{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:white;margin-bottom:6px}
+.confirm-sub{font-size:14px;color:rgba(255,255,255,0.5)}
+.confirm-body{padding:32px}
+.pin-display{background:var(--black);color:white;padding:28px;text-align:center;margin-bottom:24px}
+.pin-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:12px}
+.pin-code{font-family:'Space Mono',monospace;font-size:48px;font-weight:700;letter-spacing:8px}
+.pin-expiry{font-size:12px;color:rgba(255,255,255,0.4);margin-top:8px}
+.confirm-details{display:flex;flex-direction:column;gap:0;border:1px solid var(--border);margin-bottom:20px}
+.cd-row{display:flex;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border);font-size:14px}
+.cd-row:last-child{border-bottom:none}
+.cd-label{color:var(--grey-mid);font-size:13px}
+.cd-value{font-weight:500}
+.confirm-instructions{background:rgba(0,0,0,0.03);border:1px solid var(--border);padding:16px;margin-bottom:20px}
+.ci-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--grey-mid);margin-bottom:10px}
+.ci-steps{list-style:none;display:flex;flex-direction:column;gap:6px}
+.ci-step{font-size:13px;line-height:1.5;display:flex;gap:10px}
+.ci-step-n{font-family:'Space Mono',monospace;font-size:10px;color:var(--grey-mid);flex-shrink:0;margin-top:2px}
+.decision-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.dec-btn{padding:14px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;border:1px solid var(--black);background:none;cursor:none;transition:all .2s}
+.dec-btn.yes{background:var(--black);color:white}
+.dec-btn.no{color:var(--black)}
+.dec-btn:hover{opacity:.8}
+
+/* =================== ADMIN VIEW =================== */
+#admin-view{background:#0d0d0d;min-height:100vh;color:white}
+.admin-layout{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 60px)}
+.admin-sidebar{background:#111;border-right:1px solid rgba(255,255,255,0.06);padding:24px 0;display:flex;flex-direction:column}
+.admin-sidebar-title{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.25);padding:0 20px;margin-bottom:16px}
+.sidebar-link{display:flex;align-items:center;gap:12px;padding:11px 20px;font-size:13px;color:rgba(255,255,255,0.5);cursor:none;transition:all .2s;border-left:2px solid transparent}
+.sidebar-link svg{flex-shrink:0;opacity:.5}
+.sidebar-link:hover,.sidebar-link.active{color:white;background:rgba(255,255,255,0.04);border-left-color:white}
+.sidebar-link.active svg,.sidebar-link:hover svg{opacity:1}
+.sidebar-section{margin-top:24px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.06)}
+.admin-main{padding:36px 40px;overflow-y:auto}
+.admin-page-title{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;margin-bottom:4px}
+.admin-page-sub{font-size:13px;color:rgba(255,255,255,0.4);margin-bottom:32px}
+/* Stats row */
+.admin-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.06);margin-bottom:32px}
+.a-stat{background:#111;padding:24px 20px}
+.a-stat-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:10px}
+.a-stat-num{font-family:'Playfair Display',serif;font-size:36px;font-weight:700;line-height:1;margin-bottom:4px}
+.a-stat-sub{font-size:12px;color:rgba(255,255,255,0.35)}
+/* Admin table */
+.admin-section-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:14px;display:flex;align-items:center;justify-content:space-between}
+.admin-add-btn{background:white;color:black;border:none;padding:7px 16px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;cursor:none;transition:background .2s}
+.admin-add-btn:hover{background:var(--grey-light)}
+.admin-table-wrap{border:1px solid rgba(255,255,255,0.06);overflow:hidden;margin-bottom:32px}
+.admin-table{width:100%;border-collapse:collapse;font-size:13px}
+.admin-table th{background:#0a0a0a;padding:12px 16px;text-align:left;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.3);font-weight:400;border-bottom:1px solid rgba(255,255,255,0.06)}
+.admin-table td{padding:14px 16px;border-bottom:1px solid rgba(255,255,255,0.04);vertical-align:middle;color:rgba(255,255,255,0.8)}
+.admin-table tr:last-child td{border-bottom:none}
+.admin-table tr:hover td{background:rgba(255,255,255,0.02)}
+.status-pill{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;border:1px solid}
+.status-pill.active{border-color:rgba(34,197,94,.4);color:rgba(34,197,94,.9);background:rgba(34,197,94,.05)}
+.status-pill.pending{border-color:rgba(245,158,11,.4);color:rgba(245,158,11,.9);background:rgba(245,158,11,.05)}
+.status-pill.rented{border-color:rgba(155,155,155,.3);color:rgba(155,155,155,.7)}
+.status-pill.paid{border-color:rgba(34,197,94,.4);color:rgba(34,197,94,.9)}
+.status-pill.confirmed{border-color:rgba(34,197,94,.4);color:rgba(34,197,94,.9)}
+.status-pill.declined{border-color:rgba(239,68,68,.4);color:rgba(239,68,68,.9)}
+.toggle-switch{width:36px;height:20px;background:rgba(255,255,255,0.1);border-radius:10px;position:relative;cursor:none;transition:background .2s;border:none;flex-shrink:0}
+.toggle-switch.on{background:rgba(34,197,94,.7)}
+.toggle-switch::after{content:'';position:absolute;width:14px;height:14px;background:white;border-radius:50%;top:3px;left:3px;transition:transform .2s}
+.toggle-switch.on::after{transform:translateX(16px)}
+.admin-action-btn{padding:5px 12px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;border:1px solid rgba(255,255,255,0.15);background:none;color:rgba(255,255,255,0.6);cursor:none;transition:all .2s;margin-left:6px}
+.admin-action-btn:hover{border-color:white;color:white}
+/* PIN monitor */
+.pin-monitor{border:1px solid rgba(255,255,255,0.06);padding:20px;background:#111;margin-bottom:32px}
+.pin-entry{display:flex;align-items:center;gap:16px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:13px}
+.pin-entry:last-child{border-bottom:none}
+.pin-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.pin-dot.active{background:rgba(34,197,94,.9);box-shadow:0 0 6px rgba(34,197,94,.4)}
+.pin-dot.used{background:rgba(155,155,155,.5)}
+.pin-dot.pending{background:rgba(245,158,11,.9)}
+.pin-val{font-family:'Space Mono',monospace;font-size:13px;letter-spacing:3px;color:rgba(255,255,255,.9)}
+.pin-meta{color:rgba(255,255,255,.35);font-size:12px;flex:1}
+.pin-time{font-family:'Space Mono',monospace;font-size:10px;color:rgba(255,255,255,.25);margin-left:auto}
+/* Notification badge */
+.notif-dot{width:6px;height:6px;border-radius:50%;background:rgba(245,158,11,.9);display:inline-block;margin-left:6px;vertical-align:middle}
+/* Add listing modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:2000;display:none;align-items:center;justify-content:center;padding:40px}
+.modal-overlay.open{display:flex}
+.modal{background:white;color:black;max-width:560px;width:100%;max-height:80vh;overflow-y:auto}
+.modal-header{background:var(--black);padding:24px 28px;display:flex;justify-content:space-between;align-items:center}
+.modal-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:white}
+.modal-close{background:none;border:none;color:rgba(255,255,255,.5);font-size:20px;cursor:none;transition:color .2s}
+.modal-close:hover{color:white}
+.modal-body{padding:28px}
+.modal-field{margin-bottom:18px}
+.modal-field label{display:block;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--grey-mid);margin-bottom:6px}
+.modal-input{width:100%;border:1px solid var(--border);padding:10px 14px;font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:border .2s}
+.modal-input:focus{border-color:var(--black)}
+.modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.modal-footer{padding:20px 28px;border-top:1px solid var(--border);display:flex;gap:10px;justify-content:flex-end}
+.modal-btn{padding:10px 24px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;border:1px solid var(--black);cursor:none;transition:all .2s}
+.modal-btn.primary{background:var(--black);color:white}
+.modal-btn:hover{opacity:.8}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  #hero-public{grid-template-columns:1fr}
+  .hero-right-pub{display:none}
+  .listing-grid{grid-template-columns:1fr 1fr}
+  .detail-grid{grid-template-columns:1fr}
+  .admin-layout{grid-template-columns:1fr}
+  .admin-sidebar{display:none}
+  .admin-stats{grid-template-columns:1fr 1fr}
+}
+@media(max-width:600px){
+  .listing-grid{grid-template-columns:1fr}
+  nav{padding:0 20px}
+}
+
+/* Animations */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.animate-in{animation:fadeUp .5s ease forwards}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-ring"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#" onclick="showView('public');return false">
+    <div class="nav-logo-mark"></div>
+    <div class="nav-logo-text">Zebra Cribs</div>
+  </a>
+  <div class="nav-links">
+    <button class="nav-link active" onclick="showView('public');setNavActive(this)">Listings</button>
+    <button class="nav-link" onclick="showView('public');setNavActive(this);scrollToListings()">Browse</button>
+    <button class="nav-btn admin-btn" onclick="showView('admin');return false">Admin Portal</button>
+  </div>
+</nav>
+
+<!-- =================== PUBLIC VIEW =================== -->
+<div id="public-view" class="view active">
+
+  <!-- HERO -->
+  <div id="hero-public">
+    <div class="hero-left-pub">
+      <div class="hero-tagline">Warsaw · Poland · 2026</div>
+      <div class="pub-title">
+        Find Your<br>
+        <span>Home</span><br>
+        in Warsaw.
+      </div>
+      <p class="pub-sub">Verified listings for Warsaw's African community. Book a self-guided viewing instantly — no middleman, no waiting.</p>
+      <div class="pub-search">
+        <input type="text" placeholder="Search by district or property type..." id="searchInput" oninput="filterListings()">
+        <button onclick="filterListings()">Search</button>
+      </div>
+    </div>
+    <div class="hero-right-pub">
+      <div class="hero-stat-row">
+        <div class="h-stat">
+          <div class="h-stat-num" id="active-count">7</div>
+          <div class="h-stat-label">Active listings right now</div>
+        </div>
+        <div class="h-stat">
+          <div class="h-stat-num">20<small style="font-size:18px">zł</small></div>
+          <div class="h-stat-label">Commitment fee — credited to first month</div>
+        </div>
+        <div class="h-stat">
+          <div class="h-stat-num">48<small style="font-size:18px">hr</small></div>
+          <div class="h-stat-label">Decision window after your viewing</div>
+        </div>
+        <div class="h-stat">
+          <div class="h-stat-num">PIN</div>
+          <div class="h-stat-label">Instant access — no agent needed on site</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <div style="background:var(--black);padding:56px 48px">
+    <div style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:32px">How It Works</div>
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.06)">
+      <div style="background:#111;padding:28px 20px">
+        <div style="font-family:'Space Mono',monospace;font-size:10px;color:rgba(255,255,255,.25);margin-bottom:12px">01</div>
+        <div style="font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:white;margin-bottom:6px">Browse</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.4);line-height:1.6">Find a listing you like. View photos, specs, and details.</div>
+      </div>
+      <div style="background:#111;padding:28px 20px">
+        <div style="font-family:'Space Mono',monospace;font-size:10px;color:rgba(255,255,255,.25);margin-bottom:12px">02</div>
+        <div style="font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:white;margin-bottom:6px">Pay 20 zł</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.4);line-height:1.6">Commitment fee via BLIK or card. Credited to your first month.</div>
+      </div>
+      <div style="background:#111;padding:28px 20px">
+        <div style="font-family:'Space Mono',monospace;font-size:10px;color:rgba(255,255,255,.25);margin-bottom:12px">03</div>
+        <div style="font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:white;margin-bottom:6px">Get PIN</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.4);line-height:1.6">A unique access PIN is sent to your email and WhatsApp instantly.</div>
+      </div>
+      <div style="background:#111;padding:28px 20px">
+        <div style="font-family:'Space Mono',monospace;font-size:10px;color:rgba(255,255,255,.25);margin-bottom:12px">04</div>
+        <div style="font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:white;margin-bottom:6px">View</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.4);line-height:1.6">Use the PIN to access the lock box. View the property at your own pace.</div>
+      </div>
+      <div style="background:#111;padding:28px 20px">
+        <div style="font-family:'Space Mono',monospace;font-size:10px;color:rgba(255,255,255,.25);margin-bottom:12px">05</div>
+        <div style="font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:white;margin-bottom:6px">Decide</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.4);line-height:1.6">Confirm or decline within 48 hours. If yes — we handle the rest.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LISTINGS -->
+  <div id="listings-public">
+    <div class="section-header">
+      <div class="section-h-left">
+        <div class="sec-label">Available Now</div>
+        <div class="sec-title">Properties in Warsaw</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="sec-count" id="listing-count">7 listings</div>
+        <div class="filter-bar">
+          <button class="filter-btn active" onclick="filterByType('all',this)">All</button>
+          <button class="filter-btn" onclick="filterByType('studio',this)">Studio</button>
+          <button class="filter-btn" onclick="filterByType('1br',this)">1 Bed</button>
+          <button class="filter-btn" onclick="filterByType('2br',this)">2 Bed</button>
+        </div>
+      </div>
+    </div>
+    <div class="listing-grid" id="listing-grid"></div>
+  </div>
+</div>
+
+<!-- =================== DETAIL VIEW =================== -->
+<div id="detail-view" class="view">
+  <div class="detail-inner">
+    <div class="breadcrumb">
+      <span class="back-link" onclick="showView('public')">← All Listings</span>
+      <span class="breadcrumb-sep">·</span>
+      <span id="detail-breadcrumb">Loading...</span>
+    </div>
+    <div class="detail-grid">
+      <div class="detail-left">
+        <div class="detail-gallery" id="detail-gallery"></div>
+        <div class="detail-title-row">
+          <div class="detail-title" id="detail-title"></div>
+          <div class="detail-price-tag" id="detail-price"></div>
+        </div>
+        <div class="detail-location" id="detail-location"></div>
+        <div class="detail-specs-row" id="detail-specs"></div>
+        <div class="detail-desc" id="detail-desc"></div>
+        <div class="detail-features" id="detail-features"></div>
+      </div>
+      <div>
+        <div class="booking-panel">
+          <div class="bp-header">
+            <div class="bp-header-label">Book a Viewing</div>
+            <div class="bp-price" id="bp-price"></div>
+          </div>
+          <div class="bp-body">
+            <div class="bp-step">
+              <div class="bp-step-label">Your Name</div>
+              <input class="bp-input" type="text" placeholder="Full name" id="bp-name">
+            </div>
+            <div class="bp-step">
+              <div class="bp-step-label">Email Address</div>
+              <input class="bp-input" type="email" placeholder="your@email.com" id="bp-email">
+            </div>
+            <div class="bp-step">
+              <div class="bp-step-label">WhatsApp Number</div>
+              <input class="bp-input" type="tel" placeholder="+48 000 000 000" id="bp-phone">
+            </div>
+            <div class="bp-step">
+              <div class="bp-step-label">Preferred Viewing Date</div>
+              <input class="bp-input" type="date" id="bp-date">
+            </div>
+            <div class="bp-step">
+              <div class="bp-step-label">Time Slot</div>
+              <select class="bp-select" id="bp-time">
+                <option>10:00 – 11:00</option>
+                <option>11:00 – 12:00</option>
+                <option>13:00 – 14:00</option>
+                <option>14:00 – 15:00</option>
+                <option>15:00 – 16:00</option>
+                <option>16:00 – 17:00</option>
+                <option>17:00 – 18:00</option>
+              </select>
+            </div>
+            <div class="bp-fee-row">
+              <div class="bp-fee-label">
+                Commitment Fee
+                <small>Credited to your first month's rent</small>
+              </div>
+              <div class="bp-fee-amount">20 zł</div>
+            </div>
+            <button class="book-btn" onclick="proceedToPayment()">Pay 20 zł & Get PIN →</button>
+            <div class="bp-note">No documents needed at this stage. Just your commitment.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== PAYMENT VIEW =================== -->
+<div id="payment-view" class="view">
+  <div class="payment-box animate-in">
+    <div class="payment-box-header">
+      <div class="pbh-logo">
+        <div class="pbh-logo-mark"></div>
+        <div class="pbh-logo-text">Zebra Cribs</div>
+      </div>
+      <div class="pbh-title">Secure Payment</div>
+      <div class="pbh-sub" id="pay-listing-name">Viewing Commitment Fee</div>
+    </div>
+    <div class="payment-box-body">
+      <div class="pay-summary" id="pay-summary">
+        <div class="pay-row"><span>Viewing commitment fee</span><span>20.00 zł</span></div>
+        <div class="pay-row"><span>Property</span><span id="pay-prop-name" style="font-size:12px;text-align:right;max-width:180px">—</span></div>
+        <div class="pay-row total"><span>Total</span><span>20.00 zł</span></div>
+      </div>
+      <div style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--grey-mid);margin-bottom:12px">Payment Method</div>
+      <div class="pay-methods">
+        <div class="pay-method selected" onclick="selectPayMethod(this)">BLIK</div>
+        <div class="pay-method" onclick="selectPayMethod(this)">Card</div>
+      </div>
+      <div id="blik-fields">
+        <div class="pay-field">
+          <label>BLIK Code</label>
+          <input class="pay-input" type="text" placeholder="6-digit code" maxlength="6" style="font-family:'Space Mono',monospace;letter-spacing:8px;font-size:20px">
+        </div>
+      </div>
+      <div id="card-fields" style="display:none">
+        <div class="pay-field">
+          <label>Card Number</label>
+          <input class="pay-input" type="text" placeholder="0000 0000 0000 0000">
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div class="pay-field">
+            <label>Expiry</label>
+            <input class="pay-input" type="text" placeholder="MM/YY">
+          </div>
+          <div class="pay-field">
+            <label>CVC</label>
+            <input class="pay-input" type="text" placeholder="000">
+          </div>
+        </div>
+      </div>
+      <button class="pay-btn" onclick="completePayment()">Pay 20.00 zł →</button>
+      <div style="text-align:center;margin-top:14px;font-size:11px;color:var(--grey-mid)">Secured by Przelewy24 · Stripe</div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== CONFIRMATION VIEW =================== -->
+<div id="confirm-view" class="view">
+  <div class="confirm-box animate-in">
+    <div class="confirm-top">
+      <div class="confirm-icon">✓</div>
+      <div class="confirm-title">Viewing Confirmed</div>
+      <div class="confirm-sub">Your PIN has been sent to your email and WhatsApp</div>
+    </div>
+    <div class="confirm-body">
+      <div class="pin-display">
+        <div class="pin-label">Your Access PIN</div>
+        <div class="pin-code" id="generated-pin">—</div>
+        <div class="pin-expiry" id="pin-expiry-label">Valid for your viewing window only</div>
+      </div>
+      <div class="confirm-details" id="confirm-details"></div>
+      <div class="confirm-instructions">
+        <div class="ci-label">Viewing Instructions</div>
+        <ul class="ci-steps">
+          <li class="ci-step"><span class="ci-step-n">1.</span>Arrive at the property at your booked time. The address is confirmed above.</li>
+          <li class="ci-step"><span class="ci-step-n">2.</span>Locate the Lockin L1 smart lock box at the entrance. Enter your 6-digit PIN.</li>
+          <li class="ci-step"><span class="ci-step-n">3.</span>Retrieve the key inside and let yourself in. Take as long as you need.</li>
+          <li class="ci-step"><span class="ci-step-n">4.</span>Return the key to the lock box when you leave. Your PIN will expire automatically.</li>
+          <li class="ci-step"><span class="ci-step-n">5.</span>You have <strong>48 hours</strong> from your viewing to confirm or decline the apartment.</li>
+        </ul>
+      </div>
+      <div class="confirm-details" style="margin-bottom:20px">
+        <div class="cd-row"><span class="cd-label">Decision deadline</span><span class="cd-value" id="decision-deadline">—</span></div>
+        <div class="cd-row"><span class="cd-label">20 zł fee credit</span><span class="cd-value">Applied to first month's rent if confirmed</span></div>
+      </div>
+      <div class="decision-row">
+        <button class="dec-btn yes" onclick="makeDecision('confirm')">✓ I Want This Apartment</button>
+        <button class="dec-btn no" onclick="makeDecision('decline')">✕ Not For Me</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== ADMIN VIEW =================== -->
+<div id="admin-view" class="view">
+  <div class="admin-layout">
+    <!-- SIDEBAR -->
+    <div class="admin-sidebar">
+      <div class="admin-sidebar-title">Navigation</div>
+      <button class="sidebar-link active" onclick="showAdminTab('dashboard',this)">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="1" width="6" height="6"/><rect x="9" y="1" width="6" height="6"/><rect x="1" y="9" width="6" height="6"/><rect x="9" y="9" width="6" height="6"/></svg>
+        Dashboard
+      </button>
+      <button class="sidebar-link" onclick="showAdminTab('listings',this)">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M1 3h14v2H1zm0 4h14v2H1zm0 4h10v2H1z"/></svg>
+        Listings
+      </button>
+      <button class="sidebar-link" onclick="showAdminTab('bookings',this)">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="2" width="14" height="12" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5 1v3M11 1v3M1 6h14"/></svg>
+        Bookings
+        <span class="notif-dot"></span>
+      </button>
+      <button class="sidebar-link" onclick="showAdminTab('pins',this)">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><rect x="5" y="1" width="6" height="8" rx="1"/><path d="M8 9v6M5 12h6"/></svg>
+        PIN Monitor
+      </button>
+      <div class="sidebar-section">
+        <div class="admin-sidebar-title">Settings</div>
+        <button class="sidebar-link" onclick="showView('public')">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l-7 7 7 7 1.4-1.4L3.8 9H15V7H3.8l4.6-4.6z"/></svg>
+          View Public Site
+        </button>
+      </div>
+    </div>
+
+    <!-- MAIN -->
+    <div class="admin-main">
+
+      <!-- DASHBOARD TAB -->
+      <div id="tab-dashboard">
+        <div class="admin-page-title">Dashboard</div>
+        <div class="admin-page-sub">Overview of all listings, bookings and PIN activity</div>
+        <div class="admin-stats">
+          <div class="a-stat">
+            <div class="a-stat-label">Active Listings</div>
+            <div class="a-stat-num" id="admin-active-count">7</div>
+            <div class="a-stat-sub">Ready for viewings</div>
+          </div>
+          <div class="a-stat">
+            <div class="a-stat-label">Bookings This Week</div>
+            <div class="a-stat-num">3</div>
+            <div class="a-stat-sub">2 pending decision</div>
+          </div>
+          <div class="a-stat">
+            <div class="a-stat-label">Revenue (Fees)</div>
+            <div class="a-stat-num">60<small style="font-size:18px">zł</small></div>
+            <div class="a-stat-sub">This week · 3 bookings</div>
+          </div>
+          <div class="a-stat">
+            <div class="a-stat-label">Active PINs</div>
+            <div class="a-stat-num">1</div>
+            <div class="a-stat-sub">Viewing in progress</div>
+          </div>
+        </div>
+
+        <!-- Recent Bookings -->
+        <div class="admin-section-label">Recent Bookings</div>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr><th>Tenant</th><th>Property</th><th>Date</th><th>Payment</th><th>Decision</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Chidi Okafor</td><td>Praga Północ Studio</td><td>Today 14:00</td><td><span class="status-pill paid">Paid</span></td><td><span class="status-pill pending">Pending</span></td></tr>
+              <tr><td>Amara Diallo</td><td>Wola 2BR Modern</td><td>Yesterday 16:00</td><td><span class="status-pill paid">Paid</span></td><td><span class="status-pill confirmed">Confirmed ✓</span></td></tr>
+              <tr><td>Kwame Mensah</td><td>Mokotów 1BR</td><td>12 Feb 11:00</td><td><span class="status-pill paid">Paid</span></td><td><span class="status-pill declined">Declined</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- PIN Activity -->
+        <div class="admin-section-label">Live PIN Activity</div>
+        <div class="pin-monitor">
+          <div class="pin-entry">
+            <div class="pin-dot active"></div>
+            <div class="pin-val">947 261</div>
+            <div class="pin-meta">Praga Północ Studio · Chidi Okafor · In use now</div>
+            <div class="pin-time">Expires 17:00</div>
+          </div>
+          <div class="pin-entry">
+            <div class="pin-dot used"></div>
+            <div class="pin-val">382 104</div>
+            <div class="pin-meta">Wola 2BR · Amara Diallo · Used · Entry logged 16:04</div>
+            <div class="pin-time">Expired</div>
+          </div>
+          <div class="pin-entry">
+            <div class="pin-dot used"></div>
+            <div class="pin-val">561 837</div>
+            <div class="pin-meta">Mokotów 1BR · Kwame Mensah · Used · Entry logged 11:08</div>
+            <div class="pin-time">Expired</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LISTINGS TAB -->
+      <div id="tab-listings" style="display:none">
+        <div class="admin-page-title">Manage Listings</div>
+        <div class="admin-page-sub">Activate, edit, or deactivate properties. Each listing requires a Tuya Device ID to generate PINs.</div>
+        <div class="admin-section-label">
+          All Listings
+          <button class="admin-add-btn" onclick="openAddModal()">+ Add New Listing</button>
+        </div>
+        <div class="admin-table-wrap">
+          <table class="admin-table" id="admin-listings-table">
+            <thead>
+              <tr><th>Property</th><th>District</th><th>Price</th><th>Lock Device ID</th><th>Status</th><th>Live</th><th>Actions</th></tr>
+            </thead>
+            <tbody id="admin-listings-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- BOOKINGS TAB -->
+      <div id="tab-bookings" style="display:none">
+        <div class="admin-page-title">All Bookings</div>
+        <div class="admin-page-sub">Every booking, payment, PIN status, and tenant decision — in one place.</div>
+        <div class="admin-section-label">Bookings Log</div>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr><th>Ref</th><th>Tenant</th><th>Property</th><th>Viewing</th><th>PIN</th><th>Payment</th><th>Decision</th><th>Action</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="font-family:'Space Mono',monospace;font-size:11px;opacity:.5">ZC-003</td>
+                <td><div>Chidi Okafor</div><div style="font-size:11px;opacity:.4">chidi@gmail.com</div></td>
+                <td>Praga Północ Studio</td>
+                <td>Today · 14:00</td>
+                <td><span style="font-family:'Space Mono',monospace;letter-spacing:2px">947 261</span></td>
+                <td><span class="status-pill paid">Paid 20zł</span></td>
+                <td><span class="status-pill pending">Awaiting</span></td>
+                <td><button class="admin-action-btn">Details</button></td>
+              </tr>
+              <tr>
+                <td style="font-family:'Space Mono',monospace;font-size:11px;opacity:.5">ZC-002</td>
+                <td><div>Amara Diallo</div><div style="font-size:11px;opacity:.4">amara@mail.com</div></td>
+                <td>Wola 2BR Modern</td>
+                <td>Yesterday · 16:00</td>
+                <td><span style="font-family:'Space Mono',monospace;letter-spacing:2px;opacity:.4">382 104</span></td>
+                <td><span class="status-pill paid">Paid 20zł</span></td>
+                <td><span class="status-pill confirmed">Confirmed</span></td>
+                <td><button class="admin-action-btn">Handover</button></td>
+              </tr>
+              <tr>
+                <td style="font-family:'Space Mono',monospace;font-size:11px;opacity:.5">ZC-001</td>
+                <td><div>Kwame Mensah</div><div style="font-size:11px;opacity:.4">kwame@mail.com</div></td>
+                <td>Mokotów 1BR</td>
+                <td>12 Feb · 11:00</td>
+                <td><span style="font-family:'Space Mono',monospace;letter-spacing:2px;opacity:.4">561 837</span></td>
+                <td><span class="status-pill paid">Paid 20zł</span></td>
+                <td><span class="status-pill declined">Declined</span></td>
+                <td><button class="admin-action-btn">Archive</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- PINS TAB -->
+      <div id="tab-pins" style="display:none">
+        <div class="admin-page-title">PIN Monitor</div>
+        <div class="admin-page-sub">All lock access events across every property — in real time.</div>
+        <div class="admin-section-label">Active & Recent PINs</div>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr><th>PIN Code</th><th>Property</th><th>Tenant</th><th>Valid Window</th><th>Status</th><th>Entry Logged</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span style="font-family:'Space Mono',monospace;letter-spacing:3px;font-size:15px">947 261</span></td>
+                <td>Praga Północ Studio</td>
+                <td>Chidi Okafor</td>
+                <td>Today 14:00–17:00</td>
+                <td><span class="status-pill active">Active</span></td>
+                <td><span style="font-size:12px;opacity:.5">Viewing in progress</span></td>
+              </tr>
+              <tr>
+                <td><span style="font-family:'Space Mono',monospace;letter-spacing:3px;font-size:15px;opacity:.5">382 104</span></td>
+                <td>Wola 2BR Modern</td>
+                <td>Amara Diallo</td>
+                <td>Yesterday 16:00–19:00</td>
+                <td><span class="status-pill rented">Expired</span></td>
+                <td>Yesterday 16:04</td>
+              </tr>
+              <tr>
+                <td><span style="font-family:'Space Mono',monospace;letter-spacing:3px;font-size:15px;opacity:.5">561 837</span></td>
+                <td>Mokotów 1BR</td>
+                <td>Kwame Mensah</td>
+                <td>12 Feb 11:00–14:00</td>
+                <td><span class="status-pill rented">Expired</span></td>
+                <td>12 Feb 11:08</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ADD LISTING MODAL -->
+<div class="modal-overlay" id="add-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Add New Listing</div>
+      <button class="modal-close" onclick="closeAddModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-grid">
+        <div class="modal-field" style="grid-column:1/-1">
+          <label>Property Title</label>
+          <input class="modal-input" type="text" placeholder="e.g. Bright 1BR in Mokotów">
+        </div>
+        <div class="modal-field" style="grid-column:1/-1">
+          <label>Full Address</label>
+          <input class="modal-input" type="text" placeholder="Street, number, Warsaw">
+        </div>
+        <div class="modal-field">
+          <label>District</label>
+          <input class="modal-input" type="text" placeholder="e.g. Mokotów">
+        </div>
+        <div class="modal-field">
+          <label>Monthly Rent (PLN)</label>
+          <input class="modal-input" type="number" placeholder="e.g. 2400">
+        </div>
+        <div class="modal-field">
+          <label>Bedrooms</label>
+          <input class="modal-input" type="number" placeholder="0 = Studio">
+        </div>
+        <div class="modal-field">
+          <label>Floor Area (m²)</label>
+          <input class="modal-input" type="number" placeholder="e.g. 42">
+        </div>
+        <div class="modal-field" style="grid-column:1/-1">
+          <label>Tuya Lock Device ID</label>
+          <input class="modal-input" type="text" placeholder="e.g. bf3a9c2d1e4f5b6a" style="font-family:'Space Mono',monospace;font-size:13px">
+        </div>
+        <div class="modal-field" style="grid-column:1/-1">
+          <label>Description</label>
+          <textarea class="modal-input" rows="3" placeholder="Describe the property..."></textarea>
+        </div>
+        <div class="modal-field" style="grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;border:1px solid var(--border);padding:12px 16px">
+          <div>
+            <div style="font-weight:600;font-size:14px">Activate listing immediately</div>
+            <div style="font-size:12px;color:var(--grey-mid);margin-top:3px">Make this property visible to tenants right now</div>
+          </div>
+          <button class="toggle-switch on" id="modal-toggle" onclick="this.classList.toggle('on')"></button>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-btn" onclick="closeAddModal()">Cancel</button>
+      <button class="modal-btn primary" onclick="saveNewListing()">Save & Activate →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// =================== DATA ===================
+const listings = [
+  {
+    id:1, title:"Studio — Praga Północ", district:"Praga Północ", price:1400,
+    beds:0, sqm:28, floor:3, status:"active", type:"studio",
+    deviceId:"bf3a9c2d1e4f",
+    address:"ul. Targowa 48, Praga Północ, Warsaw",
+    desc:"Compact, well-maintained studio in the heart of Praga Północ. Excellent transport links — tram stop 2 minutes on foot. Recently renovated kitchen and bathroom. Ideal for a single person or student. Bills not included.",
+    features:["Renovated kitchen","Private bathroom","2 min to tram","Ground-floor storage","Washing machine","Double-glazed windows"],
+    colors:["#d4c9b8","#b8a898","#c8bba8","#9a8878"]
+  },
+  {
+    id:2, title:"1-Bedroom — Wola", district:"Wola", price:2200,
+    beds:1, sqm:38, floor:5, status:"active", type:"1br",
+    deviceId:"c4d2e1f3a5b6",
+    address:"ul. Kasprzaka 31, Wola, Warsaw",
+    desc:"Modern 1-bedroom apartment with panoramic city views from the 5th floor. Wola is Warsaw's fastest-growing district — surrounded by tech offices, cafes, and great transport. Full furniture included. Quiet building.",
+    features:["City views 5th floor","Fully furnished","Lift access","Metro line M2 nearby","Built-in wardrobe","High-speed WiFi included"],
+    colors:["#c5d0d8","#a8b5c0","#b0bfc8","#8898a8"]
+  },
+  {
+    id:3, title:"2-Bedroom — Mokotów", district:"Mokotów", price:3200,
+    beds:2, sqm:56, floor:2, status:"active", type:"2br",
+    deviceId:"e5f6a1b2c3d4",
+    address:"ul. Puławska 112, Mokotów, Warsaw",
+    desc:"Spacious two-bedroom apartment in one of Warsaw's most desirable residential districts. Large living area, separate dining space, and two well-sized bedrooms. Quiet street, close to Mokotów Park. Ideal for a couple or two sharers.",
+    features:["2 separate bedrooms","Large living room","Mokotów Park nearby","Quiet residential street","Modern bathroom","Tram & bus connections"],
+    colors:["#c8c0b0","#b0a898","#bdb5a5","#989080"]
+  },
+  {
+    id:4, title:"1-Bedroom — Żoliborz", district:"Żoliborz", price:2600,
+    beds:1, sqm:44, floor:1, status:"active", type:"1br",
+    deviceId:"a1b2c3d4e5f6",
+    address:"ul. Krasińskiego 22, Żoliborz, Warsaw",
+    desc:"Charming first-floor apartment in Żoliborz — Warsaw's elegant, tree-lined residential district. Close to Wilson Square and the M1 metro line. High ceilings, original wooden floors, renovated kitchen and bathroom.",
+    features:["Original wooden floors","High ceilings","M1 metro nearby","Wilson Square 5 min","Renovated kitchen","Peaceful neighbourhood"],
+    colors:["#d0cfc0","#b8b7a8","#c4c3b4","#a0a095"]
+  },
+  {
+    id:5, title:"Studio — Śródmieście", district:"Śródmieście", price:2000,
+    beds:0, sqm:32, floor:4, status:"active", type:"studio",
+    deviceId:"f1a2b3c4d5e6",
+    address:"ul. Marszałkowska 65, Śródmieście, Warsaw",
+    desc:"Central Warsaw studio on the prestigious Marszałkowska corridor. Walking distance to Palace of Culture, Warsaw Central station, and the main shopping district. Perfect for a professional who needs to be in the heart of the city.",
+    features:["Central location","4th floor with views","Walking to Central Station","Palace of Culture 5 min","Secure intercom entry","Air conditioning"],
+    colors:["#c0bdb0","#a8a598","#b4b1a5","#908d80"]
+  },
+  {
+    id:6, title:"2-Bedroom — Ursynów", district:"Ursynów", price:2800,
+    beds:2, sqm:62, floor:3, status:"active", type:"2br",
+    deviceId:"b2c3d4e5f6a1",
+    address:"ul. Puławska 280, Ursynów, Warsaw",
+    desc:"Generous two-bedroom apartment in the leafy Ursynów district. Known for its strong community feel and green spaces. On the M1 metro line, making the city centre easily accessible. Great value for the size and quality.",
+    features:["62 sqm living space","M1 metro line direct","Large kitchen-diner","Two double bedrooms","Balcony","Supermarket below building"],
+    colors:["#c4d0c0","#a8b8a4","#b4c4b0","#90a08c"]
+  },
+  {
+    id:7, title:"1-Bedroom — Ochota", district:"Ochota", price:2100,
+    beds:1, sqm:40, floor:2, status:"active", type:"1br",
+    deviceId:"d3e4f5a6b1c2",
+    address:"ul. Grójecka 15, Ochota, Warsaw",
+    desc:"Well-kept one-bedroom apartment in Ochota — a central, accessible district popular with students and young professionals. Close to Warsaw West station and multiple tram lines. Neutral décor and good natural light.",
+    features:["Good natural light","Warsaw West 10 min","Multiple tram lines","Quiet inner courtyard","Storage cupboard","Neutral modern décor"],
+    colors:["#c8c5b8","#b0ada0","#bcb9ac","#989590"]
+  }
+];
+
+let currentListing = null;
+let bookingData = {};
+
+// =================== VIEWS ===================
+function showView(name) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById(name+'-view').classList.add('active');
+  window.scrollTo(0,0);
+  if(name==='public') renderListings();
+}
+
+function setNavActive(el) {
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function scrollToListings() {
+  setTimeout(()=>document.getElementById('listings-public')?.scrollIntoView({behavior:'smooth'}),100);
+}
+
+// =================== LISTINGS ===================
+function renderListings(filter='all', search='') {
+  const grid = document.getElementById('listing-grid');
+  if(!grid) return;
+  const filtered = listings.filter(l => {
+    const matchType = filter==='all' || l.type===filter;
+    const matchSearch = !search || l.title.toLowerCase().includes(search.toLowerCase()) || l.district.toLowerCase().includes(search.toLowerCase());
+    return matchType && matchSearch && l.status==='active';
+  });
+  document.getElementById('listing-count').textContent = filtered.length+' listing'+(filtered.length!==1?'s':'');
+  document.getElementById('active-count').textContent = filtered.length;
+  grid.innerHTML = filtered.map(l => `
+    <div class="listing-card" onclick="openListing(${l.id})">
+      <div class="listing-img-placeholder" style="background:linear-gradient(135deg,${l.colors[0]},${l.colors[1]})">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="rgba(0,0,0,0.2)" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span>${l.district}</span>
+      </div>
+      <div class="listing-body">
+        <div class="listing-badge"><span class="badge-dot"></span>Available</div>
+        <div class="listing-title">${l.title}</div>
+        <div class="listing-district">${l.address.split(',')[1]?.trim() || l.district} · Warsaw</div>
+        <div class="listing-specs">
+          <div class="spec-item">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 2a5 5 0 110 10A5 5 0 018 3z"/></svg>
+            ${l.beds===0?'Studio':l.beds+' bed'}
+          </div>
+          <div class="spec-item">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><rect x="2" y="2" width="12" height="12" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+            ${l.sqm} m²
+          </div>
+          <div class="spec-item">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1v14M1 8h14" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+            Floor ${l.floor}
+          </div>
+        </div>
+        <div class="listing-footer">
+          <div class="listing-price">${l.price.toLocaleString()} zł <span>/month</span></div>
+          <button class="view-btn">Book Viewing →</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterByType(type, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderListings(type, document.getElementById('searchInput')?.value||'');
+}
+
+function filterListings() {
+  const search = document.getElementById('searchInput')?.value||'';
+  const active = document.querySelector('.filter-btn.active');
+  const type = active?.textContent.toLowerCase().replace(' bed','br').replace('all','all').replace('studio','studio') || 'all';
+  renderListings(type, search);
+}
+
+// =================== DETAIL ===================
+function openListing(id) {
+  currentListing = listings.find(l=>l.id===id);
+  if(!currentListing) return;
+  showView('detail');
+
+  document.getElementById('detail-breadcrumb').textContent = currentListing.title;
+  document.getElementById('detail-title').textContent = currentListing.title;
+  document.getElementById('detail-price').innerHTML = `${currentListing.price.toLocaleString()} zł <small>/month</small>`;
+  document.getElementById('detail-location').textContent = currentListing.address;
+  document.getElementById('bp-price').innerHTML = `${currentListing.price.toLocaleString()} <small>zł/month</small>`;
+  document.getElementById('detail-desc').textContent = currentListing.desc;
+
+  // Gallery
+  const gallery = document.getElementById('detail-gallery');
+  const colors = currentListing.colors;
+  gallery.innerHTML = `
+    <div class="gallery-main"><div class="gallery-placeholder" style="background:linear-gradient(135deg,${colors[0]},${colors[1]});height:100%"></div></div>
+    <div class="gallery-sub"><div class="gallery-placeholder" style="background:linear-gradient(135deg,${colors[2]},${colors[3]});height:100%"></div></div>
+    <div class="gallery-sub"><div class="gallery-placeholder" style="background:linear-gradient(135deg,${colors[1]},${colors[0]});height:100%"></div></div>
+  `;
+
+  // Specs
+  document.getElementById('detail-specs').innerHTML = `
+    <div class="d-spec"><span class="d-spec-val">${currentListing.beds===0?'Studio':currentListing.beds}</span><div class="d-spec-label">${currentListing.beds===0?'Type':'Bedrooms'}</div></div>
+    <div class="d-spec"><span class="d-spec-val">${currentListing.sqm}</span><div class="d-spec-label">Square m²</div></div>
+    <div class="d-spec"><span class="d-spec-val">${currentListing.floor}</span><div class="d-spec-label">Floor</div></div>
+    <div class="d-spec"><span class="d-spec-val">20 zł</span><div class="d-spec-label">View Fee</div></div>
+  `;
+
+  // Features
+  document.getElementById('detail-features').innerHTML = currentListing.features.map(f=>`<div class="feat-item">${f}</div>`).join('');
+
+  // Set date min
+  const dateInput = document.getElementById('bp-date');
+  if(dateInput) { dateInput.min = new Date().toISOString().split('T')[0]; }
+}
+
+// =================== PAYMENT ===================
+function proceedToPayment() {
+  const name = document.getElementById('bp-name')?.value;
+  const email = document.getElementById('bp-email')?.value;
+  const phone = document.getElementById('bp-phone')?.value;
+  const date = document.getElementById('bp-date')?.value;
+  const time = document.getElementById('bp-time')?.value;
+
+  if(!name||!email||!date) {
+    alert('Please fill in your name, email, and preferred date.');
+    return;
+  }
+
+  bookingData = { name, email, phone, date, time, listing: currentListing };
+  document.getElementById('pay-listing-name').textContent = currentListing.title;
+  document.getElementById('pay-prop-name').textContent = currentListing.title;
+  showView('payment');
+}
+
+function selectPayMethod(el) {
+  document.querySelectorAll('.pay-method').forEach(m=>m.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('blik-fields').style.display = el.textContent.trim()==='BLIK'?'block':'none';
+  document.getElementById('card-fields').style.display = el.textContent.trim()==='Card'?'block':'none';
+}
+
+function completePayment() {
+  // Generate random PIN
+  const pin = Math.floor(100000+Math.random()*900000).toString();
+  const pinFormatted = pin.slice(0,3)+' '+pin.slice(3);
+  document.getElementById('generated-pin').textContent = pinFormatted;
+
+  // Decision deadline (48hrs from viewing)
+  const viewDate = new Date(bookingData.date);
+  viewDate.setHours(viewDate.getHours()+48);
+  const deadlineStr = viewDate.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  document.getElementById('decision-deadline').textContent = deadlineStr;
+  document.getElementById('pin-expiry-label').textContent = `Valid: ${bookingData.date} · ${bookingData.time}`;
+
+  document.getElementById('confirm-details').innerHTML = `
+    <div class="cd-row"><span class="cd-label">Tenant</span><span class="cd-value">${bookingData.name}</span></div>
+    <div class="cd-row"><span class="cd-label">Property</span><span class="cd-value">${bookingData.listing.title}</span></div>
+    <div class="cd-row"><span class="cd-label">Address</span><span class="cd-value">${bookingData.listing.address}</span></div>
+    <div class="cd-row"><span class="cd-label">Viewing date</span><span class="cd-value">${bookingData.date}</span></div>
+    <div class="cd-row"><span class="cd-label">Time slot</span><span class="cd-value">${bookingData.time}</span></div>
+    <div class="cd-row"><span class="cd-label">Booking ref</span><span class="cd-value" style="font-family:'Space Mono',monospace">ZC-${String(Math.floor(Math.random()*900+100))}</span></div>
+  `;
+  showView('confirm');
+}
+
+function makeDecision(type) {
+  const box = document.querySelector('.confirm-box');
+  if(type==='confirm') {
+    box.style.borderTop = '3px solid #22c55e';
+    const title = box.querySelector('.confirm-title');
+    if(title) { title.textContent = 'Apartment Confirmed!'; title.style.color='#22c55e'; }
+    const sub = box.querySelector('.confirm-sub');
+    if(sub) sub.textContent = 'Leroy will be in touch within 24 hours to arrange the deposit and handover.';
+    box.querySelector('.decision-row').innerHTML = '<div style="text-align:center;padding:14px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);color:rgba(34,197,94,.9);font-family:\'Space Mono\',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase">✓ Confirmed — Welcome to Zebra Cribs</div>';
+  } else {
+    box.querySelector('.decision-row').innerHTML = '<div style="text-align:center;padding:14px;background:rgba(0,0,0,.03);border:1px solid rgba(0,0,0,.1);font-size:13px;color:var(--grey-mid)">Viewing declined. The 20 zł fee has been noted. Browse other listings to find your match.</div>';
+    setTimeout(()=>showView('public'),2200);
+  }
+}
+
+// =================== ADMIN ===================
+function showAdminTab(tab, btn) {
+  document.querySelectorAll('[id^="tab-"]').forEach(t=>t.style.display='none');
+  document.getElementById('tab-'+tab).style.display='block';
+  document.querySelectorAll('.sidebar-link').forEach(l=>l.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+}
+
+function renderAdminListings() {
+  const tbody = document.getElementById('admin-listings-body');
+  if(!tbody) return;
+  tbody.innerHTML = listings.map(l=>`
+    <tr>
+      <td><div style="font-weight:500">${l.title}</div><div style="font-size:11px;opacity:.4">${l.address}</div></td>
+      <td>${l.district}</td>
+      <td style="font-family:'Space Mono',monospace">${l.price.toLocaleString()} zł</td>
+      <td style="font-family:'Space Mono',monospace;font-size:11px;opacity:.5">${l.deviceId}</td>
+      <td><span class="status-pill ${l.status}">${l.status.charAt(0).toUpperCase()+l.status.slice(1)}</span></td>
+      <td><button class="toggle-switch on" onclick="toggleListing(${l.id},this)"></button></td>
+      <td>
+        <button class="admin-action-btn" onclick="openListing(${l.id});showView('detail')">View</button>
+        <button class="admin-action-btn">Edit</button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function toggleListing(id, btn) {
+  btn.classList.toggle('on');
+  const listing = listings.find(l=>l.id===id);
+  if(listing) listing.status = btn.classList.contains('on') ? 'active' : 'inactive';
+  const active = listings.filter(l=>l.status==='active').length;
+  const c = document.getElementById('admin-active-count');
+  if(c) c.textContent = active;
+}
+
+function openAddModal() {
+  document.getElementById('add-modal').classList.add('open');
+}
+function closeAddModal() {
+  document.getElementById('add-modal').classList.remove('open');
+}
+function saveNewListing() {
+  closeAddModal();
+  // In production this would save to Supabase
+  alert('Listing saved and activated. It is now live on the public platform.');
+}
+
+// =================== CURSOR ===================
+const cur = document.getElementById('cur');
+const ring = document.getElementById('cur-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX; my=e.clientY;
+  cur.style.left=mx+'px'; cur.style.top=my+'px';
+});
+(function animRing(){
+  rx+=(mx-rx)*.12; ry+=(my-ry)*.12;
+  ring.style.left=rx+'px'; ring.style.top=ry+'px';
+  requestAnimationFrame(animRing);
+})();
+
+// =================== INIT ===================
+renderListings();
+renderAdminListings();
+
+// Set default date to tomorrow
+const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate()+1);
+const dateInput = document.getElementById('bp-date');
+if(dateInput) dateInput.value = tomorrow.toISOString().split('T')[0];
+</script>
+</body>
+</html>
